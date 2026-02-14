@@ -16,13 +16,14 @@ Fichiers de configuration de Ralph (agent de veille) :
 - **HEARTBEAT.md** — Configuration heartbeat périodique
 - **BOOT.md** — Configuration bootstrap système
 
-### `/docs/` — Documentation LobsterOps (5 docs principaux)
+### `/docs/` — Documentation LobsterOps (6 docs principaux)
 Documentation complète écosystème OpenClaw pour production :
 - **OpenClaw_Knowledge_Index.md** — Index navigation transversale
 - **OpenClaw_Encyclopedia.md** — Encyclopédie architecture et écosystème
 - **OpenClaw_Operators_Playbook.md** — Guide opérationnel pas-à-pas (Phase 0-6)
 - **OpenClaw_Technical_Deep_Dives.md** — Deep dives techniques (Annexes A-U)
 - **OpenClaw_Ecosystem_Watch.md** — Veille chronologique (releases, sécurité, signaux)
+- **LobsterOps_AI_Agents_Crypto_Ecosystem_v1.1.md** — Étude convergence Crypto × AI Agents (Base, tokens, infrastructure, trading)
 
 ### `/research/` — Fichiers de Veille
 Recherches et analyses ponctuelles :
@@ -67,7 +68,7 @@ Dernière mise à jour : **14 février 2026**
 
 | Métrique | Valeur |
 |----------|--------|
-| **Docs LobsterOps** | 5 (Index, Encyclopedia, Playbook, Deep Dives, Watch) |
+| **Docs LobsterOps** | 6 (Index, Encyclopedia, Playbook, Deep Dives, Watch, Crypto Ecosystem) |
 | **Sessions Ralph** | 3 (12-14 fév. 2026) |
 | **Recherches web** | 7/2000 (Brave quota) |
 | **Signaux critiques** | 4 🔴 + 8 🟡 |
