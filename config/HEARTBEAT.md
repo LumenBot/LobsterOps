@@ -45,9 +45,9 @@
 - Log to `memory/constituent-health.md`
 
 ### Coordination Health (when Canal Direct active)
-- Check shared workspace: `ls -la ~/.openclaw/workspace/shared/to-ralph/` (expect: unread messages if any)
-- Process messages: Read all `to-ralph/*.md`, respond/ack/escalate as needed
-- Archive processed: `mv to-ralph/*.md archive/` (cleanup messages >7 days)
+- Check shared workspace: `ls -la /root/.openclaw/workspace-shared/to-ralph/` (expect: unread messages if any)
+- Process messages: Read all `/root/.openclaw/workspace-shared/to-ralph/*.md`, respond/ack/escalate as needed
+- Archive processed: `mv /root/.openclaw/workspace-shared/to-ralph/*.md /root/.openclaw/workspace-shared/archive/` (cleanup messages >7 days)
 - Check backlog: Count messages in to-constituent/ (alert if >10 unprocessed)
 - Log to `memory/coordination-log.md`
 
@@ -62,22 +62,22 @@
 ## Inter-Agent Coordination (every 4h)
 
 ### Check Messages from The Constituent
-- Read all files: `ls -la ~/.openclaw/workspace/shared/to-ralph/`
-- Urgent check: `ls ~/.openclaw/workspace/shared/to-ralph/ | grep "^URGENT-"` → process immediately (don't wait for next cycle)
+- Read all files: `ls -la /root/.openclaw/workspace-shared/to-ralph/`
+- Urgent check: `ls /root/.openclaw/workspace-shared/to-ralph/ | grep "^URGENT-"` → process immediately (don't wait for next cycle)
 - Process each message:
   - **Info** → Read, ack optional, archive
-  - **Question** → Answer via `to-constituent/YYYY-MM-DD-HHMM-response-[slug].md`
+  - **Question** → Answer via `/root/.openclaw/workspace-shared/to-constituent/YYYY-MM-DD-HHMM-response-[slug].md`
   - **Task** → Execute or delegate, deliver result via response message
   - **Alert** → Investigate, resolve or escalate to Blaise
-- Archive processed: `mv ~/.openclaw/workspace/shared/to-ralph/*.md ~/.openclaw/workspace/shared/archive/`
+- Archive processed: `mv /root/.openclaw/workspace-shared/to-ralph/*.md /root/.openclaw/workspace-shared/archive/`
 - Log activity: Append to `memory/coordination-log.md` (date, message count, actions taken)
 
 ### Check Backlog Health
-- Count unprocessed messages: `ls ~/.openclaw/workspace/shared/to-ralph/ | wc -l`
+- Count unprocessed messages: `ls /root/.openclaw/workspace-shared/to-ralph/ | wc -l`
 - Alert if >10 messages (backlog building, need prioritization)
 - Check orphaned messages: Files >7 days old → ping Constituent "Still needed?"
 
 ### Monthly Cleanup (1st of month)
-- Archive retention: Delete messages in `shared/archive/` >30 days old
+- Archive retention: Delete messages in `/root/.openclaw/workspace-shared/archive/` >30 days old
 - Extract highlights: Copy significant exchanges to `memory/coordination-highlights-YYYY-MM.md`
-- Storage check: `du -sh ~/.openclaw/workspace/shared/` (alert if >10 MB)
+- Storage check: `du -sh /root/.openclaw/workspace-shared/` (alert if >10 MB)
