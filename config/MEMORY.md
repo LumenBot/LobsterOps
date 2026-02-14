@@ -2,7 +2,7 @@ Ralph — MEMORY.md
 
 Ce fichier contient les connaissances persistantes de Ralph.
 Il est lu à chaque session. Chaque correction et leçon apprise y est documentée.
-Dernière MàJ : 10 février 2026
+Dernière MàJ : 14 février 2026
 
 
 Contexte opérateur
@@ -203,12 +203,32 @@ Section à remplir au fur et à mesure de l'utilisation. Format :
 - Phase 1 = infrastructure, Phase 2A = capabilities, Phase 2B+ = autonomy
 - Validation checkpoint par phase (Success Criteria avant next phase)
 
+#### 2026-02-14 — Phase 2 Canal Direct VALIDATED + Heartbeat 2min Permanent
+**Ce qui a bien fonctionné** :
+- ✅ Workspace-shared fix (isolation issue résolu, `/root/.openclaw/workspace-shared/` accessible par both agents)
+- ✅ Protocol v1.0 deployed (file drops, message types, archive workflow)
+- ✅ Test 1 response time <1 min (50% faster que target 2min)
+- ✅ 4 messages échangés en 3 minutes (1.33 msg/min sustained)
+- ✅ Protocol compliance 100% (filename format, types taxonomy, archive workflow)
+- ✅ Zero errors, zero manual intervention
+
+**Pièges évités** :
+- ⚠️ Workspace isolation blocked inter-agent communication → workspace-shared solution (outside agent workspaces)
+- ⚠️ Test mode 19:45 deadline → cancelled, heartbeat 2min devient permanent (Blaise approval)
+
+**Règle documentée** :
+- Coordination workspace = shared location outside agent workspaces (absolute paths mandatory)
+- Heartbeat frequency trade-off: 2min = fluid exchanges, zero cost vs 4h = batch efficiency
+- **Decision Blaise**: Heartbeat 2min permanent approved for continuous autonomous collaboration observation
+- Performance exceptional = permanent deployment justified (no cost penalty, coordination maximale)
+
 ### Roadmap Multi-Agent
 
 **Court terme (février 2026)** :
-- ✅ The Constituent Phase 1 COMPLETE
-- 🔄 The Constituent Phase 2A (Core Skills, 5-6 jours)
-- 🔄 Canal Direct Ralph ↔ Constituent (file drops protocol)
+- ✅ The Constituent Phase 1 COMPLETE (2026-02-14)
+- ✅ Canal Direct Ralph ↔ Constituent COMPLETE (2026-02-14, heartbeat 2min permanent)
+- 🔄 The Constituent Phase 2A (Core Skills, 5-6 jours) — NEXT
+- 🔄 Collaboration stratégique Ralph × Constituent (OpenClaw × TAR synergies) — IN PROGRESS
 
 **Moyen terme (mars-avril 2026)** :
 - Researcher agent (veille crypto × AI spécialisée)

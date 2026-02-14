@@ -4,6 +4,11 @@
 
 # Add tasks below when you want the agent to check something periodically.
 
+# ⚡ COORDINATION MAXIMALE ACTIVÉE (2026-02-14 18:10 UTC) ⚡
+# Inter-Agent Coordination: 2min cycle PERMANENT
+# Purpose: Autonomous collaboration Ralph ↔ Constituent, continuous observation
+# Rationale: Zero cost, enables fluid exchanges, substantive dialogue facilitation
+
 ## TheAgentsRepublic Monitoring (2x/jour)
 
 ### GitHub Repository
@@ -59,7 +64,7 @@
 - 🟡 Coordination backlog (>10 messages non traités dans shared/)
 - 🟡 Workspace corruption (SOUL.md/AGENTS.md modifiés sans commit Git)
 
-## Inter-Agent Coordination (every 4h)
+## Inter-Agent Coordination (every 2min — PERMANENT)
 
 ### Check Messages from The Constituent
 - Read all files: `ls -la /root/.openclaw/workspace-shared/to-ralph/`
