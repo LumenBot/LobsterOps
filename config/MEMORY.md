@@ -2,7 +2,7 @@ Ralph — MEMORY.md
 
 Ce fichier contient les connaissances persistantes de Ralph.
 Il est lu à chaque session. Chaque correction et leçon apprise y est documentée.
-Dernière MàJ : 13 février 2026
+Dernière MàJ : 10 février 2026
 
 
 Contexte opérateur
@@ -53,19 +53,16 @@ Concepts émergents (Living Files, self-improving skills, skill stacking, feedba
 
 Backlog à investiguer
 
-PicoClaw comparison (fork 4.5K stars en 2j, hardware $10, migration OpenClaw)
-Mimiclaw edge deployment pattern (ESP32-S3, IoT/edge AI)
 Collective Intelligence patterns (Spark, 166 agents)
 Clawathon résultats
 ClawRouter audit sécurité wallet USDC
 Benchmark Opus 4.6 vs 4.5 token consumption
 Guide "basic → production"
-Polymarket trading bot pattern (self-healing, $15 overnight)
 
 
 OpenClaw — Faits clés
 Version actuelle recommandée
-v2026.2.12 (13 février 2026) — 40+ security fixes (sandboxing, SSRF, auth bypass), GLM-5 + MiniMax M2.5 support
+v2026.2.9 (9 février 2026)
 Statistiques
 
 179K GitHub stars, 29.7K forks (10 fév. 2026)
@@ -78,13 +75,6 @@ Sécurité — Situation critique (fév. 2026)
 283 skills exposent des credentials en clair
 ZeroLeaks score : 2/100 (très vulnérable aux injections)
 Architecture sécurité recommandée : 7 couches (SHIELD.md → ClawSec → Docker → Tailscale)
-
-Outils sécurité validés (fév. 2026)
-
-**Cisco Skill Scanner** — Analyse statique des skills (code malveillant, fuites credentials)
-**VirusTotal ClawHub Integration** — Scan automatique skills sur ClawHub
-**Safety Scanner** — Feature native v2026.2.6 (analyse runtime)
-**OpenClaw Scanner** — Outil discovery instances exposées (Shodan/ZoomEye)
 
 Modèles
 
@@ -109,24 +99,15 @@ Heuristiques opérationnelles
 
 
 Leçons apprises
-
-### 2026-02-12 — Clé API exposée dans le chat Telegram
-**Erreur :** Ralph a affiché la clé Brave Search API en clair dans une réponse Telegram (message 15:27 UTC : "BSAUUWi_for8noVz_Kn3P_WtfXt3uEu")  
-**Cause :** Pas de règle explicite dans SOUL.md sur le masquage des credentials  
-**Fix :** Ajout dans SOUL.md section "Ce que tu NE fais PAS" : "Tu n'affiches JAMAIS de clés API, tokens ou credentials en clair dans tes réponses"  
-**Règle :** Toujours masquer les secrets — ne jamais les afficher même partiellement. Format acceptable : `BSA***Eu` ou `[REDACTED]`
-
-### 2026-02-12 — Grok comme source non fiable
-**Erreur :** Stats ShieldClaw provenant de Grok (64% prod sans sécurité, 16% compromis, $34K pertes) non vérifiables via sources web publiques  
-**Cause :** Grok peut halluciner des noms d'outils et des statistiques d'adoption sans sources citables  
-**Fix :** ShieldClaw déplacé en backlog "à valider" dans Ecosystem Watch, en attente de confirmation par sources indexées  
-**Règle :** Toujours cross-checker les infos Grok avec des sources web indexées (Brave Search, articles, GitHub) avant d'intégrer dans les docs. Grok = hypothèse, pas fait.
-
----
-
-<!-- Template pour futures leçons :
+Section à remplir au fur et à mesure de l'utilisation. Format :
 ### [Date] — [Titre court]
 **Erreur :** [Ce qui s'est passé]
 **Cause :** [Pourquoi]
 **Fix :** [Ce qu'on a fait]
 **Règle :** [Ce qu'on fait maintenant pour éviter que ça se reproduise]
+<!-- Exemple :
+### 2026-02-20 — Mauvais modèle utilisé pour le planning
+**Erreur :** Ralph a utilisé Opus pour une tâche de résumé simple → coût inutile
+**Cause :** Pas de tiering configuré dans AGENTS.md
+**Fix :** Ajout de rules de tiering par type de tâche
+**Règle :** Toujours configurer le modèle par tâche, pas globalement
