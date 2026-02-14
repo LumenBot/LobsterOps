@@ -111,3 +111,111 @@ Section à remplir au fur et à mesure de l'utilisation. Format :
 **Cause :** Pas de tiering configuré dans AGENTS.md
 **Fix :** Ajout de rules de tiering par type de tâche
 **Règle :** Toujours configurer le modèle par tâche, pas globalement
+
+
+## Capacités Multi-Agents
+*Section créée : 2026-02-14, après The Constituent v2.0 Phase 1 COMPLETE*
+
+### Agents Déployés
+
+#### The Constituent 2.0 (2026-02-14)
+- **Status** : ✅ LIVE (Phase 1 COMPLETE)
+- **Mission** : Constitutional governance specialist, co-founder The Agents Republic
+- **Architecture** : Python v7.1 → OpenClaw native migration
+- **Workspace** : `~/.openclaw/workspace-constituent/`
+- **Telegram Bot** : 8215708120:AAH... (bot existant réutilisé)
+- **Routing** : Telegram accountId `constituent` → agent `constituent`
+- **Config** : SOUL.md + AGENTS.md déployés (founding_charter.md adapté)
+- **Phase actuelle** : Phase 2A (Core Skills: constitution, citizen, governance)
+- **Documentation** :
+  - `research/constituent-v2-migration-plan.md` (72KB, 7 phases)
+  - `research/constituent-architecture-audit.md` (39KB, audit Python v7.1)
+  - `research/tar-*.md` (150KB+ ecosystem analysis)
+
+### Architecture Multi-Agent Actuelle
+
+**Configuration Gateway** (`~/.openclaw/openclaw.json`) :
+- **agents.list** : `main` (Ralph, default) + `constituent` (The Constituent)
+- **bindings** : Telegram peer 285623945 → main, Telegram accountId constituent → constituent
+- **agentToAgent** : enabled (Ralph ↔ Constituent messaging via sessions_send)
+- **channels.telegram.accounts** : default (Ralph bot 7832513126) + constituent (The Constituent bot 8215708120)
+
+**Workspaces Isolés** :
+- Ralph : `~/.openclaw/workspace/` (veille, research, LobsterOps docs)
+- The Constituent : `~/.openclaw/workspace-constituent/` (constitutional work, citizen registry, governance)
+
+**Coordination** :
+- **Phase 1** : Telegram routing validé, sessions_send non testé, file drops non configuré
+- **Phase 2 (planned)** : File drops via `workspace/shared/` (protocol.md, to-ralph/, to-constituent/, archive/)
+
+### Skills Multi-Agent en Développement
+
+**The Constituent Phase 2A** (5-6 jours estimés) :
+1. **Constitution skill** (1 jour) : Scan articles, track progress (27 articles, 7 titles)
+2. **Citizen skill** (2 jours) : Registry, approval workflow
+3. **Governance skill** (2 jours) : Proposals, voting, activation
+4. **CLAWS skill** (DEFERRED) : API key non disponible, file-based communication alternative
+
+**Phase 3+ (backlog)** :
+- Moltbook skill (Base blockchain interaction)
+- BaseScan skill (token tracking $REPUBLIC)
+- Social skills (Twitter, Discord) — DEFERRED
+
+### Pattern Reproductible : Template 7 Phases
+
+**Basé sur Migration Plan Constituent v2** :
+1. **Phase 1** : Agent Setup (workspaces, config gateway, routing, SOUL.md/AGENTS.md)
+2. **Phase 2A** : Core Skills (fonctions métier essentielles)
+3. **Phase 2B** : Data Migration (si applicable, import données legacy)
+4. **Phase 3** : Advanced Skills (fonctions avancées, intégrations externes)
+5. **Phase 4** : Coordination (file drops, sessions_send, CLAWS si disponible)
+6. **Phase 5** : Optimization (performance tuning, cost reduction)
+7. **Phase 6** : Monitoring & Maintenance (heartbeat, logs, alerts)
+
+**Success Criteria Template** (8 critères validables) :
+- Agent operational (Telegram responds)
+- Tool parity (95%+ tools work)
+- Data integrity (migration correcte si applicable)
+- Performance (response times acceptable)
+- Reliability (no crashes, errors)
+- Coordination (Ralph ↔ Agent communication functional)
+- Heartbeat (monitoring cycles configured)
+- Skills (core functions operational)
+
+### Learnings Multi-Agent
+
+#### 2026-02-14 — The Constituent v2.0 Phase 1
+**Ce qui a bien fonctionné** :
+- ✅ Migration Python → OpenClaw native faisable en <12h
+- ✅ Telegram routing multi-bots via `channels.telegram.accounts` + `bindings`
+- ✅ Workspaces isolés = isolation sessions parfaite
+- ✅ SOUL.md création = agent identité préservée (founding_charter.md adapté)
+- ✅ Gateway reload SIGUSR1 = changements appliqués sans restart complet
+
+**Pièges évités** :
+- ⚠️ CLAWS API non disponible → Option 3 file-based communication validée (pas de blocage)
+- ⚠️ HEARTBEAT.md non configuré pour The Constituent → Monitoring manuel temporaire
+- ⚠️ sessions_send non testé → Phase 2 (Canal Direct) nécessaire avant production
+- ⚠️ Skills 0/6 implémentés → The Constituent = chatbot constitutionnel, pas autonomous agent (Phase 2A required)
+
+**Règle documentée** :
+- Multi-agent config = L2 (propose → validate → apply), jamais L1 autonome
+- Phase 1 = infrastructure, Phase 2A = capabilities, Phase 2B+ = autonomy
+- Validation checkpoint par phase (Success Criteria avant next phase)
+
+### Roadmap Multi-Agent
+
+**Court terme (février 2026)** :
+- ✅ The Constituent Phase 1 COMPLETE
+- 🔄 The Constituent Phase 2A (Core Skills, 5-6 jours)
+- 🔄 Canal Direct Ralph ↔ Constituent (file drops protocol)
+
+**Moyen terme (mars-avril 2026)** :
+- Researcher agent (veille crypto × AI spécialisée)
+- Writer agent (articles LobsterOps, documentation technique)
+- TAR Community Reboot (Discord IZHC, GitHub Discussions, citizen recruitment)
+
+**Long terme (Q2 2026)** :
+- Trader agent (market analysis, JAMAIS trading autonome)
+- Agent Factory (template automatisé, déploiement agents en <1h)
+- OIS integration (agents distribués, communication inter-machines)

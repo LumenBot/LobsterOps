@@ -28,3 +28,33 @@
 - 🔴 Breaking changes (version bumps major)
 - 🟡 Community activity spike
 - 🟡 Constitutional amendments proposed
+
+## Multi-Agent Monitoring (2x/jour)
+
+### Deployed Agents Status
+- Check agents list: `openclaw status` (expect: 2 agents, main + constituent)
+- Verify session stores: `ls -la ~/.openclaw/sessions/` (expect: 2 stores, no corruption)
+- Check gateway process: `ps aux | grep openclaw` (expect: pid stable, no restarts)
+- Log to `memory/multi-agent-status.md`
+
+### The Constituent Health
+- Check workspace: `ls -la ~/.openclaw/workspace-constituent/` (expect: SOUL.md, AGENTS.md, memory/ present)
+- Check Telegram bot: Send test message "health check" to bot 8215708120 (expect: response <5s)
+- Check logs: `tail -100 ~/.openclaw/logs/constituent.log 2>/dev/null` (expect: no ERROR lines recent)
+- Response time benchmark: "Ping test" message → measure response latency (baseline: <3s)
+- Log to `memory/constituent-health.md`
+
+### Coordination Health (when Canal Direct active)
+- Check shared workspace: `ls -la ~/.openclaw/workspace/shared/to-ralph/` (expect: unread messages if any)
+- Process messages: Read all `to-ralph/*.md`, respond/ack/escalate as needed
+- Archive processed: `mv to-ralph/*.md archive/` (cleanup messages >7 days)
+- Check backlog: Count messages in to-constituent/ (alert if >10 unprocessed)
+- Log to `memory/coordination-log.md`
+
+### Alerts (immediate Blaise notification)
+- 🔴 Agent down (The Constituent ne répond pas après 2 pings)
+- 🔴 Gateway crash (pid changed, restarts détectés)
+- 🔴 Skills broken (The Constituent ERROR logs, skills non fonctionnels)
+- 🟡 Performance degradation (response time >10s, baseline 3s)
+- 🟡 Coordination backlog (>10 messages non traités dans shared/)
+- 🟡 Workspace corruption (SOUL.md/AGENTS.md modifiés sans commit Git)
