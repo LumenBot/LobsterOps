@@ -9,6 +9,55 @@
 # Purpose: Autonomous collaboration Ralph ↔ Constituent, continuous observation
 # Rationale: Zero cost, enables fluid exchanges, substantive dialogue facilitation
 
+## OpenClaw Security Monitoring (2x/jour)
+
+### Security Advisories
+- Check GitHub security tab: `cd workspace && gh repo view openclaw/openclaw --web` (manual check needed)
+- Search CVEs: web_search "OpenClaw CVE site:github.com OR site:nvd.nist.gov"
+- Monitor releases: Check `openclaw status` for update available (security patches priority)
+- Log to `memory/openclaw-security-log.md`
+
+### Malicious Skills Detection
+- Check ClawHub reports: web_search "ClawHub malicious skills removed banned"
+- Monitor skill vetting discussions: web_search "site:github.com/openclaw/openclaw is:issue label:security OR label:skills"
+- Track ecosystem alerts: X/Discord mentions of compromised skills
+- Log suspicious patterns → `memory/skills-security-alerts.md`
+
+### Deployed Skills Audit (The Constituent)
+- **Inventory**: `ls ~/.openclaw/workspace-constituent/skills/` (expect: constitution ✅ deployed 2026-02-15, citizen pending, governance pending)
+- **Constitution skill monitoring** (weekly):
+  - Check usage logs: `grep "constitution" ~/.openclaw/logs/constituent.log | tail -20`
+  - Performance: Response times <100ms (baseline <1ms)
+  - Data updates: Verify `constitution-status.json` reflects new articles published
+  - Error rate: Zero errors expected
+- **Sandboxing check**: Verify each skill SKILL.md follows best practices:
+  - No arbitrary code execution without validation
+  - API keys secured (never hardcoded)
+  - File access scoped to workspace boundaries
+  - Network calls explicitly documented
+- **Dependency audit**: `cd ~/.openclaw/workspace-constituent/skills/<skill> && npm audit` (if node-based)
+- Log audit results → `memory/constituent-skills-security.md`
+
+### Security Checklist Enforcement
+Before deploying ANY new skill (Ralph or Constituent):
+1. ✅ Read SKILL.md completely (understand all capabilities)
+2. ✅ Check source reputation (author, GitHub stars, reviews)
+3. ✅ Audit code if custom (no obfuscated scripts)
+4. ✅ Verify sandbox boundaries (file access, network scope)
+5. ✅ Test in isolated session first (never production直接)
+6. ✅ Document in security log (skill name, purpose, risk assessment)
+
+**Reference**: `workspace/docs/security-checklist-skills.md` (to create)
+
+### Alerts (immediate Blaise notification)
+- 🔴 CVE affecting current OpenClaw version
+- 🔴 Security advisory for skills in use (constitution/citizen/governance)
+- 🔴 Malicious skill detected in ClawHub matching deployed skills
+- 🟡 Major security release available (50+ fixes threshold)
+- 🟡 Community security concerns trending
+
+---
+
 ## TheAgentsRepublic Monitoring (2x/jour)
 
 ### GitHub Repository
