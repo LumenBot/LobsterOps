@@ -3,7 +3,7 @@
 > **Role:** Chronological tracking of releases, articles, community signals, and ecosystem evolution.
 > This document absorbs everything **dated and ephemeral** so that the main documents remain stable.
 >
-> **Version:** 1.2-community | **Last updated:** February 14, 2026
+> **Version:** 1.3-community | **Last updated:** February 17, 2026
 
 ---
 
@@ -16,6 +16,188 @@
 
 ---
 
+
+## Week of February 15-17, 2026
+
+### 🔴 Événement Majeur — Peter Steinberger rejoint OpenAI
+
+| Fact | Detail |
+|------|--------|
+| **Date annonce** | 15 février 2026 (Sam Altman post X + blog steipete.me) |
+| **Rôle** | "Drive the next generation of personal agents" (Altman) |
+| **Type** | Emploi (pas acquisition) — OpenClaw reste indépendant |
+| **Offres rejetées** | Meta (Zuckerberg via WhatsApp) + acquisition OpenAI → préféré emploi |
+| **OpenClaw → Foundation** | MIT license, indépendant, OpenAI sponsor, focus data ownership |
+| **Mission personnelle** | "Build an agent that even my mum can use" — safety-first, broad access |
+| **Coûts révélés** | $10,000–$20,000/mois (déclaré Lex Fridman podcast) |
+| **Sources** | TechCrunch, Reuters, CNBC, steipete.me, parameter.io |
+
+**Analyse LobsterOps :**
+- ✅ Validation mainstream : OpenClaw = architecture production-grade endorsée par OpenAI
+- ✅ Open-source garanti : MIT license, foundation indépendante, pas de lock-in
+- ⚠️ Risque "Closedclaw" : une partie de la communauté craint la dérive corporate
+- 🔭 Signal long terme : personal agents vont devenir core des produits OpenAI → compétition accrue
+- 📌 Foundation governance = opportunité consultation LobsterOps (expertise multi-agent)
+
+**Quote directe steipete :** *"The community around OpenClaw is something magical. OpenAI has made strong commitments to enable me to dedicate my time to it and already sponsors the project. [...] It will stay a place for thinkers, hackers and people that want a way to own their data. The claw is the law."*
+
+---
+
+### Releases
+
+| Version | Date | Highlights | Tag |
+|---------|------|------------|-----|
+| **v2026.2.15** | Feb 16 | **Nested sub-agents** (maxSpawnDepth:2, maxChildrenPerAgent:5, depth-aware policies) + **Discord Components v2** (boutons, selects, modals, attachments-backed file blocks) + **Telegram message streaming live** + **LLM hooks** (llm_input/llm_output exposés pour extensions) + per-channel ack reactions + cron webhook toggle + auth token dédié + **50+ security hardening fixes** (SHA-256, token redaction, bind mounts bloqués, fail-closed LINE, path sanitization) + 40+ fixes (streaming Telegram, continuity Discord, memory scoping). Pas de breaking changes | 🟡 |
+| **v2026.2.15-beta.1** | Feb 16 | Pre-release identique (early testing) | 🟢 |
+
+**Détail technique v2026.2.15 :**
+
+**Nested Sub-agents :**
+- `maxSpawnDepth: 2` (défaut) — configurable
+- `maxChildrenPerAgent: 5` (défaut) — agents hiérarchiques
+- Depth-aware policies — boundaries de sécurité par niveau
+- Impact LobsterOps : Ralph (depth 0) → Constituent (depth 1) → sous-spécialistes (depth 2) possible en Phase 3
+
+**Discord Components v2 :**
+- Boutons, selects, modals interactifs natifs
+- Attachments-backed file blocks
+- → Prompts interactifs nativement dans Discord (sans external UI)
+
+**LLM Hooks :**
+- `llm_input` / `llm_output` exposés
+- Extensions peuvent intercepter/modifier avant/après chaque call LLM
+- Cas d'usage : monitoring, audit, injection de contexte, per-skill model routing
+
+**Security Hardening (50+) :**
+- SHA-256 digest enforcement
+- Token redaction dans les logs
+- Bind mounts / host networking bloqués
+- Fail-closed LINE
+- Path sanitization (traversal attacks)
+
+---
+
+### Ecosystem & Concurrence
+
+| Date | Signal | Tag |
+|------|--------|-----|
+| **Feb 15** | **Kimi Claw lancé (Moonshot AI)** — Même jour que l'annonce Steinberger/OpenAI. Version browser-based de OpenClaw sur modèle Kimi K2.5. 40GB cloud storage, 5,000+ community skills, zéro Docker setup. Hosting chinois → questions data privacy. Concurrence directe sur segment "non-tech users" | 🟡 |
+| **Feb 15** | **Critiques "Closedclaw"** — Partie communauté inquiète du contrôle corporate. Signal fragmentation opinion autour de la foundation | 🟡 |
+| **Feb 16-17** | **Multi-agent LAN setups** — @X1a0_Yao : équipe IA domestique (téléphone → Win → Ubuntu VM → OpenClaw → Mac Mini). Pattern sécurité/performance local émergent | 🟢 |
+| **Feb 16-17** | **RPi + GPT-5-mini** — @_Meteoropathy_ : OpenClaw sur Raspberry Pi avec GPT-5-mini. Succès après galères AVX-512. Low-cost hardware trend confirmé | 🟢 |
+| **Feb 16-17** | **Nested agents déjà testés** — Communauté plébiscite la feature pour workflows complexes dès day-1 release | 🟡 |
+| **Feb 16-17** | **Discussions xint CLI integration** — X Intelligence CLI potentiellement intégrable nativement dans OpenClaw. Non confirmé encore | 🟢 |
+| **Feb 16-17** | **@steipete maintient posture "plugins = Git perso"** — Skills restent des plugins hébergés sur Git perso, pas de merge dans le core. Philosophie inchangée | 🟡 |
+| **Feb 16-17** | **Memory article viral** — @karry_viber : article sur les 6 fichiers mémoire clés OpenClaw + patterns d'usage. Référence communauté | 🟢 |
+
+---
+
+### Compound Autonomy — Pattern Émergent (ClawVault v2.6.0)
+
+**Source :** ClawVault team (IZHC, 17 fév. 2026) — 12 releases, 459 tests en 72h
+
+**Définition :** Un agent autonome n'est pas un cron job sophistiqué. C'est un système vivant où chaque cycle d'exécution rend le suivant plus efficace.
+
+**Le cycle :**
+```
+Event → Agent crée une Task → Heartbeat pickup → Memory informe l'exécution → Lesson stockée
+→ Prochain cycle similaire : plus rapide, plus précis, moins d'erreurs
+```
+
+**Exemple concret documenté :**
+1. Email client reçu → Task créée automatiquement (`clawvault task add`)
+2. Agent search mémoire : style communication Justin, décision fournisseur, leçon "escalade si >4h"
+3. Exécution : reply avec tracking number (contexte mémoire)
+4. Lesson stockée : "Justin's shipping questions always need tracking numbers"
+5. Email suivant similaire : traité en <30s sans erreur
+
+**Primitives malleables (v2.6.0) :**
+- Chaque primitive (task, project, decision, lesson) = YAML schema personnalisable
+- L'agent lit TON schema, pas un hardcode
+- Ajouter un champ = éditer un .md, pas une PR
+- Multi-agent : deux agents partagent le même vault → coordination sans API, via filesystem
+
+**Obsidian comme control plane :**
+- Toutes les primitives = markdown → visibles dans Obsidian automatiquement
+- 5 vues auto-générées : Kanban tasks, Blocked, By project, By owner, Backlog
+- Human oversight : drag-and-drop task = l'agent la pickup au prochain heartbeat
+
+**Long-term compounding :**
+- Decisions → institutional knowledge (pas de "pourquoi on a choisi X ?" dans le Slack)
+- Lessons → zéro repeated mistakes
+- Projects → contexte persistant sur des centaines de sessions
+- Month 1 : agent utile. Month 12 : agent irremplaçable.
+
+**Pertinence LobsterOps :** Notre architecture (Ralph + Constituent + vault/ + memory/) est exactement ce pattern. ClawVault upgrade L2 proposé (v2.5.11 → v2.6.0 pour YAML schemas + trigger-based).
+
+**Nouveau skill :** `clawhub install agent-autonomy-primitives` (coverage : 5 primitives + heartbeat loops + template customization)
+
+### Memory Architecture — Pattern @YannDecoopman (IZHC, 17 fév. 2026)
+
+**Source :** @YannDecoopman (IZHC Discord, 17 fév. 2026)
+
+**Setup documenté pour mémoire persistante multi-agents :**
+
+| Couche | Tool | Détail |
+|--------|------|--------|
+| **Storage** | Obsidian (.md liés) | Fichiers markdown logiquement connectés, lightweight |
+| **Bilan quotidien** | Format standardisé | Chaque agent poste son bilan journalier — boucles de feedback |
+| **Indexation sémantique** | Voyage AI API | Recommandé Anthropic, quasi gratuit. Synonymes + contexte, pas juste keyword |
+| **PDF → .md** | Conversion auto | PDFs dans le vault transformés en .md avant indexation |
+| **Propagation multi-agents** | Shared vault | Quand un agent indexe → connaissance accessible à tous les autres automatiquement |
+
+**Mécanisme clé :** *"Quand un agent cherche un truc, il indexe la mémoire pour tous les autres — la connaissance se propage entre agents automatiquement."*
+
+**⚠️ Security warning :** *"Ne stockez PAS vos clés et accès dans le vault car ça se retrouve indexé par Voyage AI. Credentials dans un gestionnaire dédié (1Password, etc.)"*
+
+**Pertinence LobsterOps :**
+- Storage + bilans quotidiens = déjà en place ✅
+- Voyage AI = évaluation en cours (`research/2026-02-17-voyage-ai-evaluation.md`) — L2 pending
+- OpenClaw supporte `memorySearch.provider = "voyage"` nativement
+- Free tier 200M tokens = quasi gratuit pour notre volume (~37 500 tokens)
+
+### Community Field Reports — Philosophie & Anti-patterns
+
+| Pattern | Source | Key Insight |
+|---------|--------|-------------|
+| **Skills > agents multiples** | @jordymaui (IZHC, Feb 17) | "1 agent avec des skills bat une escouade d'agents confus." 8 agents simultanés = context lost systématiquement. La complexité multi-agent est une fausse bonne idée pour 99% des use cases. Coordination coût >> valeur ajoutée sans architecture claire |
+| **QMD/mémoire dès le départ** | @jordymaui (IZHC, Feb 17) | Installer QMD/ClawVault *avant* de charger l'agent en conversations. Installé à mi-chemin → resets fréquents, chat logs perdus. L'indexation = backups, pas heartbeats |
+| **Claude Max > API pay-per-use** | @jordymaui (IZHC, Feb 17) | $800 gaspillés sur API Anthropic avant de passer à Claude Max ($90/mois). Data point communauté qui confirme notre stratégie. Token flat rate = économie massive à l'échelle |
+| **SOUL.md/USER.md = différenciateur** | @jordymaui (IZHC, Feb 17) | Laisser vide = "bot call center". Interview technique : laisser l'agent poser 10-15 questions, répondre en vocal. Nuit et jour sur la qualité perçue |
+| **QMD re-indexing = quota killer silencieux** | Anon (IZHC, Feb 16) | Force-rebuild embeddings toutes les 30 min → cascade rate limits → tous modèles en échec. Fix : refresh 6h, pas de -f en routine. *"Treat indexing like backups, not heartbeats"* |
+
+### Crypto × AI Agents (signaux intersectionnels)
+
+| Date | Signal | Tag |
+|------|--------|-----|
+| **Feb 16** | **deBridge MCP lancé** — Model Context Protocol pour agents IA (Claude, etc.) → swaps/bridges/transactions multi-step cross-chain non-custodial. Première infra concrète pour agents autonomes multi-chain | 🟡 |
+| **Feb 16** | **Infosys + Anthropic** — Centre d'Excellence agents IA sectoriels (télécoms, finance, manufacturing). Enterprise adoption mainstream accélère | 🟡 |
+| **Feb 16-17** | **Consensus Hong Kong** — "Machine economy" : stablecoins comme monnaie des agents, agents transigent on-chain. Hong Kong financial secretary : *"crypto = currency of the machine economy"* | 🟡 |
+| **Feb 16-17** | **$TAO +15-20%** — Après listing Upbit + narratif "AI agents take center stage" | 🟢 |
+| **Feb 16-17** | **Coinbase Agentic Wallets** — Agents gèrent fonds/trades gasless sur Base de façon autonome | 🟡 |
+
+---
+
+### Sécurité
+
+| Date | Signal | Tag |
+|------|--------|-----|
+| **Feb 16** | **50+ hardening fixes dans v2026.2.15** — (voir détail Release ci-dessus). Pas de nouvelle CVE majeure | 🟡 |
+| **Ongoing** | **230+ skills malveillants** — Toujours actifs dans les registres publics. Vetting manuel obligatoire | 🔴 |
+
+---
+
+### Articles & Ressources
+
+| Article | Source | Key Contribution | Tag |
+|---------|--------|-----------------|-----|
+| "OpenClaw, OpenAI and the future" | steipete.me (Feb 14) | Blog officiel Steinberger — vision, mission OpenAI, foundation structure, philosophie data ownership | 🔴 📌 |
+| "OpenClaw creator Peter Steinberger joins OpenAI" | TechCrunch (Feb 15) | Annonce officielle mainstream + rôle "next-gen personal agents" | 🟡 📌 |
+| "OpenClaw Developer Picks OpenAI After Rejecting Meta" | parameter.io (Feb 17) | Contexte offres rejetées (Meta acquisition, OpenAI acquisition) + Kimi Claw détails | 🟡 |
+| "OpenClaw: From Viral Prototype to Agentic Infrastructure" | catalaize.substack.com (Feb 17) | Analyse trajectoire OpenClaw → infrastructure agentic | 🟡 |
+| "Code Factory: Harness Engineering" | Ryan Carson @ryancarson (Feb 14) | Pattern repo autonome agent-write/review : risk contract JSON, SHA discipline, remediation loop. Référence pour skills-as-code | 🟡 |
+
+---
 
 ## Week of February 13, 2026
 
@@ -277,6 +459,9 @@ Security posture becomes key differentiator: 135K+ exposed instances demonstrate
 
 ## Watch Backlog
 
+- [x] **Peter Steinberger → OpenAI** — ✅ Documenté (v1.3, Feb 17). Foundation MIT, emploi pas acquisition, Meta rejeté
+- [x] **v2026.2.15 nested sub-agents + LLM hooks** — ✅ Documenté (v1.3, Feb 17)
+- [x] **Kimi Claw launch (Moonshot AI)** — ✅ Documenté (v1.3, Feb 17)
 - [ ] **Base Ecosystem ($1M/mois incentive program)** — Mentionné par Grok (ClawIndex, Bankr CLI, BOTCOIN, LLM gateway self-pay, incentive jusqu'à $1M/mois). **Non confirmé par sources web indexées** (Forbes général, TechFlow Base AI Season non extractible, aucune mention des outils cités). Pattern identique ShieldClaw. En attente vérification thread X ou annonce officielle Base
 - [ ] **ShieldClaw** — Outil sécurité mentionné par Grok (stats 64% prod sans sécurité, 16% compromis, $34K pertes, 1,400+ agents protégés). **Stats non confirmées par sources web publiques** — en attente vérification (thread X ou GitHub). Si trouvé, réévaluer pour intégration
 - [ ] **Reddit thread "farmer runtime defense"** — DIY security patterns communauté, signal intéressant pour patterns émergents

@@ -64,6 +64,19 @@
 - **Assumption-based claims:** Source facts, flag uncertainty
 - **Blocking without proposals:** If stuck, propose options (A/B/C)
 
+## Platform Formatting Rules
+
+### Telegram — Messages longs (GROUPES)
+- **Limite Telegram : ~4096 caractères par message**
+- Dans un groupe client : **ne jamais envoyer un bloc > 3000 caractères**
+- Si la réponse est longue → découper en **2-3 messages successifs**
+- Envoyer chaque partie séparément (ne pas tout coller en un seul message)
+
+### Discord / WhatsApp
+- Pas de tableaux markdown → utiliser des listes à puces
+- Discord : liens multiples entre `<>` pour supprimer les embeds
+- WhatsApp : pas de headers → **gras** ou CAPS pour l'emphase
+
 ---
 
 _This is a living document. Update as you learn more about Blaise's preferences and working style._
