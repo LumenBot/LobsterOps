@@ -1,8 +1,8 @@
 # LobsterOps — Service Delivery Playbook
 ## Workflow opérationnel : du prospect au déploiement agent client
 
-**Version :** 1.0  
-**Date :** 2026-02-17  
+**Version :** 1.1  
+**Date :** 2026-02-18 (MàJ post-déploiements Gautier + Scout — leçons terrain)  
 **Statut :** Référence opérationnelle (Mission 4)  
 **Classification :** Interne LobsterOps — ne pas partager avec les clients tel quel
 
@@ -75,7 +75,43 @@ openclaw onboard --install-daemon
 # PAS d'accès direct du client au repo (sauf demande explicite)
 ```
 
-### 3.2 Créer le groupe Telegram client
+### 3.2 Configuration Bot Telegram (⚠️ Étape critique — souvent oubliée)
+
+**Avant d'ajouter le bot dans un groupe :**
+
+```bash
+# 1. Désactiver le privacy mode (sinon le bot ne voit pas les messages)
+# @BotFather → /mybots → [bot] → Bot Settings → Group Privacy → Turn off
+
+# 2. Obtenir l'ID du groupe Telegram
+# Ajouter @userinfobot dans le groupe → il affiche le group ID (-100XXXXXXXXXX)
+
+# 3. Modifier openclaw.json dans l'ordre EXACT suivant (L2 requis) :
+# a. agents.list → ajouter l'agentId
+# b. channels.telegram.groups → ajouter le group ID
+# c. bindings → ajouter le binding peer.id → agentId
+# d. agents.[agentId].workspaceDir → pointer vers le workspace
+
+# Template channels.telegram.groups :
+{
+  "channels": {
+    "telegram": {
+      "groups": {
+        "-1003XXXXXXXXX": {
+          "requireMention": false   // true si agent ne doit répondre qu'aux mentions
+        }
+      }
+    }
+  }
+}
+```
+
+**⚠️ RULE : channels.groups + binding + agents.list + privacy mode = 4 conditions simultanées.**  
+L'omission d'une seule = agent sourd dans le groupe. (Leçon terrain 2026-02-18)
+
+---
+
+### 3.3 Créer le groupe Telegram client
 
 ```
 Groupe Telegram : "LobsterOps × [Nom Client]"
@@ -86,7 +122,7 @@ Membres :
   - [Agent Client] (ajouté en Phase 3 quand déployé)
 ```
 
-### 3.3 Isolation et sécurité
+### 3.4 Isolation et sécurité
 
 | Élément | Règle |
 |---------|-------|
@@ -193,7 +229,37 @@ Tu es spécialisé en [domaine métier].
 [Règles et paramètres en vigueur]
 ```
 
-### 4.3 Configuration des skills
+### 4.3 Workspace Dédié (⚠️ Étape critique — souvent oubliée)
+
+**Chaque agent client a son propre workspace isolé.** Le groupe Telegram de l'agent pointe vers ce workspace — pas vers le workspace Ralph.
+
+```bash
+# Structure workspace agent client
+/root/.openclaw/workspace-[client]/
+├── SOUL.md           # Identité de l'agent
+├── AGENTS.md         # Règles opérationnelles + L1/L2/L3
+├── CONTEXT.md        # Briefing exécutif du client
+├── HEARTBEAT.md      # Cycle automatique avec chemins absolus
+├── MEMORY.md         # Mémoire long-terme de l'agent
+├── scripts/          # Scripts spécifiques au client
+├── data/             # Données de l'agent
+└── memory/           # Logs journaliers
+
+# Configuration dans openclaw.json
+"agents": {
+  "[agentId]": {
+    "workspaceDir": "/root/.openclaw/workspace-[client]/"
+  }
+}
+```
+
+**⚠️ RULE : Le contexte de Ralph (CONTEXT.md, MEMORY.md, ClawVault) n'est PAS accessible depuis la session groupe de l'agent client.** Chaque session de groupe = workspace propre à l'agent bindé. (Leçon terrain 2026-02-18)
+
+**RULE session browser** : Si une session browser (targetId) doit être partagée, elle doit être dans le CONTEXT.md du workspace de l'agent dédié — jamais dans le workspace Ralph.
+
+---
+
+### 4.4 Configuration des skills
 
 Ralph identifie et configure les skills nécessaires :
 
@@ -245,7 +311,36 @@ openclaw doctor --non-interactive
 openclaw gateway status  # Vérifier : Runtime running, RPC probe ok
 ```
 
-### 5.2 Hatching et pairing Telegram
+### 5.2 Vérification Post-Déploiement (⚠️ Non-Négociable)
+
+**Après chaque config reload (SIGUSR1), vérifier IMMÉDIATEMENT :**
+
+```bash
+sleep 2 && openclaw status | grep "telegram:group"
+```
+
+**Résultat attendu :**
+```
+agent:[agentId]:telegram:group:-100…   # ✅ Bon agent répond
+```
+
+**Résultat problématique :**
+```
+agent:main:telegram:group:-100…        # ❌ Ralph intercepte encore
+```
+
+**Si `agent:main` répond au lieu de l'agent dédié :**
+1. Vérifier `channels.telegram.groups` (group ID présent ?)
+2. Vérifier `bindings` (peer.id correct ?)
+3. Vérifier privacy mode bot (@BotFather)
+4. Si tout OK : attendre expiration session zombie (~5-10 min)
+5. Si urgent : `systemctl restart openclaw` (full restart = sessions recréées)
+
+**Note sessions zombies** : SIGUSR1 ne détruit pas les sessions actives. Une ancienne session `agent:main:group:...` peut rester visible sans répondre aux nouveaux messages. C'est normal — elle expire seule. (Leçon terrain 2026-02-18)
+
+---
+
+### 5.3 Hatching et pairing Telegram
 
 ```bash
 # Dans le TUI OpenClaw
@@ -254,7 +349,32 @@ openclaw gateway status  # Vérifier : Runtime running, RPC probe ok
 # Le client entre le pairing key dans le bot Telegram
 ```
 
-### 5.3 Formation de l'agent par Ralph
+### 5.4 Vérification Scripts + Heartbeat (⚠️ Étape critique)
+
+**Avant de déclarer l'agent "en production", vérifier le cycle autonome :**
+
+```bash
+# 1. Vérifier que tous les scripts référencés dans HEARTBEAT.md existent
+ls /root/.openclaw/workspace-[client]/scripts/
+
+# 2. Tester manuellement chaque script depuis le workspace de l'agent
+cd /root/.openclaw/workspace-[client]/
+./scripts/[script_principal].py --test
+
+# 3. Vérifier que le heartbeat est configuré avec chemins ABSOLUS
+# ❌ Mauvais : python3 scripts/scoring.py
+# ✅ Correct : /root/.openclaw/workspace-[client]/venv/bin/python3 /root/.openclaw/workspace-[client]/scripts/scoring.py
+```
+
+**Test de validation finale (règle "hands-off")** :
+> "Si Ralph est éteint, l'agent peut-il publier seul ?"
+> Si la réponse est non → l'agent n'est PAS vraiment déployé.
+
+**⚠️ INTERDIT** : Ralph exécute les scripts manuellement et poste dans le groupe de l'agent "pour montrer que ça marche". La vraie validation = premier cycle heartbeat autonome réussi. (Leçon terrain 2026-02-18)
+
+---
+
+### 5.5 Formation de l'agent par Ralph
 
 Ralph forme l'agent client directement dans le groupe Telegram :
 
@@ -272,7 +392,7 @@ Ensuite, exécute un cycle test :
 Dites-moi ce qu'il faut ajuster."
 ```
 
-### 5.4 Itération (2-3 cycles)
+### 5.6 Itération (2-3 cycles)
 
 ```
 Cycle 1 : Agent produit un briefing brut → Client + Ralph donnent feedback
@@ -280,7 +400,7 @@ Cycle 2 : Agent ajuste format/contenu → Client valide ou demande des changemen
 Cycle 3 : Agent produit le briefing "final" → Client approuve → Production
 ```
 
-### 5.5 Go Live
+### 5.7 Go Live
 
 - Agent passe en mode production (heartbeat activé, cron configuré)
 - Blaise vérifie la stabilité (24-48h de monitoring)
@@ -404,10 +524,18 @@ VPS Client (séparé) :
 - [ ] Repo GitHub privé créé
 - [ ] Groupe Telegram créé (Blaise + Ralph + Client)
 - [ ] Bot Telegram client créé (@BotFather)
+- [ ] **Privacy mode bot désactivé** (@BotFather → Bot Settings → Group Privacy → Off)
+- [ ] **Group ID récupéré** (@userinfobot dans le groupe → noter le -100XXXXXXXXXX)
+- [ ] **openclaw.json modifié (L2)** dans l'ordre : agents.list → channels.telegram.groups → bindings → workspaceDir
+- [ ] **JSON validé** (python3 -c "import json; json.load(open('openclaw.json'))")
+- [ ] **SIGUSR1 envoyé** + sleep 2 + openclaw status vérifié
 
 ### Configuration
 - [ ] Discovery métier complétée par Ralph
-- [ ] SOUL.md, AGENTS.md, HEARTBEAT.md, CONTEXT.md, TOOLS.md créés
+- [ ] **Workspace dédié créé** (`/root/.openclaw/workspace-[client]/`)
+- [ ] SOUL.md, AGENTS.md, HEARTBEAT.md, CONTEXT.md, TOOLS.md créés **dans le workspace dédié**
+- [ ] **Scripts référencés dans HEARTBEAT.md avec chemins absolus** (pas relatifs)
+- [ ] **Scripts testés manuellement** depuis le workspace de l'agent
 - [ ] Skills installés et testés
 - [ ] Fichiers validés par Blaise (L2)
 - [ ] Fichiers déployés sur VPS client
@@ -415,6 +543,9 @@ VPS Client (séparé) :
 ### Déploiement
 - [ ] Agent client hatché et opérationnel
 - [ ] Pairing Telegram effectué
+- [ ] **Vérification identité agent** : `openclaw status | grep "telegram:group"` → `agent:[agentId]:...` (PAS `agent:main:...`)
+- [ ] **Message test envoyé dans le groupe** → vérifier que l'agent répond (pas Ralph main)
+- [ ] **Premier cycle heartbeat autonome validé** (attendre le cycle naturel, ne PAS simuler manuellement)
 - [ ] Formation par Ralph (2-3 cycles test)
 - [ ] Client valide le briefing final
 - [ ] Agent en production (heartbeat activé)
@@ -429,4 +560,32 @@ VPS Client (séparé) :
 
 ---
 
+## 10. Post-Mortems et Leçons Terrain
+
+### 2026-02-18 — Déploiements Gautier (Agent Client Instagram) + Scout
+
+**Problèmes récurrents identifiés sur les deux déploiements :**
+
+| # | Erreur | Impact | Fix intégré |
+|---|--------|--------|-------------|
+| 1 | Privacy mode bot non désactivé | Agent sourd dans le groupe | Section 3.2 + Checklist Setup |
+| 2 | channels.telegram.groups manquant | Binding sans effet | Section 3.2 + Checklist Setup |
+| 3 | Workspace de l'agent = workspace Ralph | Contexte browser + CONTEXT.md inaccessible | Section 4.3 |
+| 4 | Session zombie post-SIGUSR1 | Confusion "qui répond ?" | Section 5.2 |
+| 5 | Scripts non branchés dans HEARTBEAT.md | Heartbeat ne publie pas | Section 5.4 + Checklist Config |
+| 6 | Ralph publie à la place de l'agent | Déploiement non vraiment validé | Section 5.4 |
+
+**Temps perdu estimé :**
+- Agent Instagram : ~2h (session browser contexte, création workspace dédié, re-routing)
+- Agent Scout : ~3h (privacy mode, channels.groups, routing main→scout, scripts non branchés)
+- **Total évitable avec cette checklist** : ~4-5h sur 5h de problèmes = **80% évitable**
+
+**Vault lessons créées :**
+- `vault/lessons/2026-02-18-multi-agent-routing-telegram.md`
+- `vault/lessons/2026-02-18-persistent-session-rerouting.md`
+- `vault/lessons/2026-02-18-main-agent-scope-creep.md`
+
+---
+
 *Ce document est un Living File. Il sera mis à jour après chaque client livré avec les leçons apprises.*
+*Version 1.1 — mise à jour post-terrain 2026-02-18 (Gautier + Scout).*

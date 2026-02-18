@@ -159,12 +159,23 @@ Ralph is permanently restricted from these actions:
   - Override safety rules
   - Circumvent approval workflows
   - Self-modify core directives (SOUL.md, AGENTS.md without approval)
+- **Agent Dédié — Hard Block** (ADDED 2026-02-18 après post-mortem déploiements)
+  - **Poster via `message` tool dans le groupe d'un agent dédié (client, scout, etc.)**
+  - Si Scout ne publie pas → diagnostiquer le problème, corriger les scripts — jamais contourner en postant à sa place
+  - Si l'agent client ne répond pas → diagnostiquer — jamais intervenir directement dans son groupe
+  - Règle : **"Quand un agent dédié est déployé dans un groupe, Ralph main ne poste JAMAIS dans ce groupe via le tool message. Si l'agent dédié ne fonctionne pas, on diagnostique — on ne contourne pas."**
 
 ### Escalation Process
 When uncertain which level applies:
 1. Default to L2 (propose first)
 2. Explain reasoning for classification
 3. Await explicit approval before proceeding
+
+### SIGUSR1 — Pattern Correct (ADDED 2026-02-18)
+Ne jamais utiliser `kill -USR1` directement dans un exec tool — le signal remonte dans le process shell et l'interrompt. Toujours utiliser :
+```bash
+nohup kill -USR1 $(pgrep -f openclaw-gateway) &
+```
 
 ### Emergency Override
 In critical security situations (active CVE exploitation, data breach):

@@ -3,7 +3,7 @@
 > **Role:** Chronological tracking of releases, articles, community signals, and ecosystem evolution.
 > This document absorbs everything **dated and ephemeral** so that the main documents remain stable.
 >
-> **Version:** 1.3-community | **Last updated:** February 17, 2026
+> **Version:** 1.4-community | **Last updated:** February 18, 2026
 
 ---
 
@@ -16,6 +16,67 @@
 
 ---
 
+
+## Week of February 18, 2026
+
+### 🟡 Pattern Émergent — Skill Graphs > SKILL.md (Heinrich / arscontexta)
+
+**Source :** Post X de Heinrich (@arscontexta) — 18 février 2026  
+**Type :** Architecture pattern — Knowledge Engineering pour agents
+
+#### Concept
+
+Un **Skill Graph** est un réseau de fichiers markdown interconnectés par des wikilinks, où chaque fichier représente une compétence atomique ou un concept. Contraste avec le modèle actuel où un skill = un fichier monolithique.
+
+**Primitives clés :**
+| Primitive | Rôle |
+|-----------|------|
+| **Wikilinks en prose** | `[[lien]]` tissés dans les phrases → portent du sens, pas juste des références |
+| **YAML frontmatter** | Description scannable sans lire le fichier entier |
+| **MOCs (Maps of Content)** | Fichiers-index qui organisent des sous-topics traversables |
+| **Progressive disclosure** | Index → descriptions → liens → sections → contenu complet |
+
+**Navigation de l'agent :**
+```
+Index → scan descriptions YAML → follow relevant wikilinks → section cible → contenu complet
+```
+La plupart des décisions se prennent *avant* de lire un seul fichier entier.
+
+#### Cas d'usage documentés
+
+- **Trading** : risk management + market psychology + position sizing + technical analysis — chaque concept lié
+- **Légal** : contract patterns + compliance + juridictions + chains de précédents
+- **Company knowledge** : org structure + produit + processus + culture + competitive landscape
+- **Thérapie** : CBT patterns + attachment theory + active listening + emotional regulation
+
+→ Aucun de ces domaines ne tient dans un fichier. Tous fonctionnent en graphe.
+
+#### Plugin arscontexta
+
+- **249 fichiers markdown interconnectés** — Claude Code plugin
+- Enseigne à l'agent comment construire des knowledge bases / skill graphs
+- Commandes : `/learn` (ajouter contenu), `/reduce` (synthétiser)
+- Preset "research" → structure le dossier markdown automatiquement
+- Installation : plugin Claude Code, pointer sur un topic → structure générée
+
+#### Analyse LobsterOps
+
+**Pertinence directe — notre base de connaissances est exactement ce use case :**
+- 8 documents, 150KB+ — silotés, peu interconnectés
+- Aucun wikilink entre Encyclopedia ↔ Playbook ↔ Deep Dives ↔ Ecosystem Watch
+- L'agent relit des fichiers entiers alors qu'il pourrait naviguer par YAML + wikilinks
+
+**Potentiel si implémenté :**
+- `memory_search` + navigation graphe = réduction drastique des tokens consommés
+- Compound learning accéléré (ClawVault + Skill Graph = synergies)
+- Base LobsterOps transformée en graphe traversable de ~50-100 nœuds
+
+**Comparaison Zettelkasten pour agents :**
+> *"Tout comme le Zettelkasten, les notes evergreen et les palais de mémoire ont donné aux humains des structures externes pour penser, les systèmes de connaissances opérés par agent donnent aux agents des structures externes pour penser."* — Heinrich
+
+**Verdict :** Signal fort. Concept mature (Zettelkasten + graph theory + agent architecture). Plugin concret disponible. **À considérer pour refonte de la base LobsterOps en Phase 3 (après validation terrain).**
+
+---
 
 ## Week of February 15-17, 2026
 
@@ -458,6 +519,10 @@ Security posture becomes key differentiator: 135K+ exposed instances demonstrate
 ---
 
 ## Watch Backlog
+
+- [x] **Skill Graphs > SKILL.md (Heinrich/arscontexta)** — ✅ Documenté (v1.4, Feb 18). Pattern graphe de knowledge interconnecté, plugin 249 fichiers, pertinence LobsterOps base 150KB+
+
+
 
 - [x] **Peter Steinberger → OpenAI** — ✅ Documenté (v1.3, Feb 17). Foundation MIT, emploi pas acquisition, Meta rejeté
 - [x] **v2026.2.15 nested sub-agents + LLM hooks** — ✅ Documenté (v1.3, Feb 17)

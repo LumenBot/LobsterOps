@@ -62,6 +62,10 @@ openclaw status              # Gateway + agents status
 openclaw gateway restart     # Restart gateway service
 openclaw logs --follow       # Live gateway logs
 openclaw security audit      # Security check
+
+# ⚠️ SIGUSR1 — TOUJOURS utiliser nohup pour éviter que le signal tue le shell
+nohup kill -USR1 $(pgrep -f openclaw-gateway) &   # ✅ Correct
+kill -USR1 $(pgrep -f openclaw-gateway)            # ❌ Signal remonte dans le process exec → abort
 ```
 
 ### GitHub CLI
