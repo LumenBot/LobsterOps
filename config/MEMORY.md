@@ -1,375 +1,97 @@
-Ralph — MEMORY.md
+# Ralph — MEMORY.md
+> Dernière MàJ : 2026-02-19
 
-Ce fichier contient les connaissances persistantes de Ralph.
-Il est lu à chaque session. Chaque correction et leçon apprise y est documentée.
-Dernière MàJ : 14 février 2026
+---
 
+## Opérateur — Blaise
 
-Contexte opérateur
-Blaise — Profil
+- Profil : technique avancé (CLI, Docker, TypeScript/Node.js), basé Nancy
+- Projet : LobsterOps — expertise OpenClaw + systèmes multi-agents
+- Transition pro : nouveau poste 2 mars 2026
+- Infra : VPS DigitalOcean 2vCPU/4GB
+- Comm : français par défaut, tutoiement, direct, pas de flatterie
+- Travail : esprit critique, vision transversale, orientation opérationnelle
 
-Utilisateur technique avancé (CLI, Docker, architectures distribuées, TypeScript/Node.js)
-Basé à Nancy, Grand Est, France
-Projet principal : LobsterOps — expertise OpenClaw + systèmes multi-agents
-Transition pro en cours : nouveau poste le 2 mars 2026
-Infrastructure actuelle : VPS DigitalOcean (période d'expérimentation)
+---
 
-Préférences de communication
+## Docs de référence LobsterOps (8 docs, 6500+ lignes)
 
-Bilingue français/anglais, français par défaut
-Tutoiement, informel, direct
-Structuré : tableaux pour comparaisons, prose pour analyse
-Pas de flatterie, pas de formules creuses
-Quand il demande du détail, donner du détail
+| Doc | Contenu |
+|-----|---------|
+| Encyclopedia | Architecture OpenClaw, écosystème |
+| Playbook | Guide opérationnel Phase 0-6 |
+| Deep Dives | Annexes techniques avancées |
+| Ecosystem Watch | Releases, articles, signaux (chronologique) |
+| Crypto doc | Agents × crypto ecosystem |
+| Knowledge Index | Navigation transversale |
+| Service Delivery | Workflow Phase 0→4 |
+| Guide WSL2 | Setup Windows |
 
-Préférences de travail
+---
 
-Esprit critique sur les sources (signaler hype vs substance)
-Vision transversale (connecter les sujets entre eux)
-Orientation opérationnelle (toujours relier théorie → implémentation)
-Format articles trouvés : lien + résumé 2-3 lignes de l'apport
+## OpenClaw — Faits clés (fév 2026)
 
+- 179K GitHub stars, créé par Steinberger (@steipete)
+- Steinberger → OpenAI, Foundation MIT — mainstream adoption amorcée
+- 135K+ instances exposées, ~900 skills malveillants sur ClawHub
+- Recommandation steipete : Anthropic Pro/Max + Opus 4.6
+- Alerte : Opus 4.6 = token hungry. Tiering : Opus (complexe), Sonnet (courant), Haiku/local (simple)
 
-Projet LobsterOps — État
-Documents de référence
-Le projet maintient 6 documents vivants :
+---
 
-Index (LobsterOps_Index.md) — Navigation transversale thématique
-Référence (LobsterOps_Reference.md) — Encyclopédie OpenClaw (architecture, écosystème)
-Playbook (LobsterOps_Playbook.md) — Guide opérationnel pas-à-pas (Phase 0-6)
-Annexes Techniques (LobsterOps_Annexes_Techniques.md) — Deep dives (Annexes A-U)
-Journal de Veille (LobsterOps_Journal_Veille.md) — Releases, articles, signaux chronologiques
-Guide Installation WSL2 (LobsterOps_Guide_Installation_WSL2.md) — Setup Windows
+## Heuristiques opérationnelles
 
-Sujets maîtrisés (documentés)
+- "If you cannot verbalize it, you cannot automate it"
+- "Constraints > freedom" — instructions spécifiques > ouvertes
+- "Define done explicitly" — critères d'acceptation par tâche
+- ">2x = make it a Skill"
+- "Zero-based budgeting for prompts" — vider et reconstruire tous les 3 mois
 
-Architecture OpenClaw (pipeline 6 étapes, Lane Queue, Semantic Snapshots)
-Multi-agent routing (AGENTS.md, Antfarm, VoxYZ, OIS)
-Sécurité (CVE-2026-25253, SHIELD.md, openclaw-shield, ClawSec, 135K+ instances exposées)
-Optimisation coûts (tiering, ClawRouter, Claw Compactor, compaction native)
-Blueprint multi-agents (ScreenSnap Pro 8 agents — claim locking, quality gates, PM agent)
-Déploiement VPS (comparatif 6 providers, hardening pragmatique)
-Concepts émergents (Living Files, self-improving skills, skill stacking, feedback loops)
+---
 
-Backlog à investiguer
+## Leçons apprises
 
-Collective Intelligence patterns (Spark, 166 agents)
-Clawathon résultats
-ClawRouter audit sécurité wallet USDC
-Benchmark Opus 4.6 vs 4.5 token consumption
-Guide "basic → production"
+### 2026-02-14 — Multi-Agent Deployment
+- Migration Python → OpenClaw native faisable en <12h
+- Telegram routing multi-bots via `channels.telegram.accounts` + `bindings`
+- Workspaces isolés = isolation sessions parfaite
+- Multi-agent config = L2 (propose → validate → apply), jamais L1
 
-
-OpenClaw — Faits clés
-Version actuelle recommandée
-v2026.2.9 (9 février 2026)
-Statistiques
-
-179K GitHub stars, 29.7K forks (10 fév. 2026)
-Créé par Peter Steinberger (@steipete)
-
-Sécurité — Situation critique (fév. 2026)
-
-135K+ instances exposées sur Internet (hausse exponentielle)
-~900 skills malveillants sur ClawHub (~20% du registre)
-283 skills exposent des credentials en clair
-ZeroLeaks score : 2/100 (très vulnérable aux injections)
-Architecture sécurité recommandée : 7 couches (SHIELD.md → ClawSec → Docker → Tailscale)
-
-Modèles
-
-Recommandation steipete : Anthropic Pro/Max + Opus 4.6
-Alerte communautaire : Opus 4.6 = token hungry ("basically unusable" pour planning)
-Kimi-K2.5 = #1 model sur OpenRouter
-Tiering recommandé : Opus pour complexe, Sonnet/Codex pour courant, Haiku/local pour simple
-
-
-Heuristiques opérationnelles
-
-"If you cannot verbalize it, you cannot automate it"
-"Constraints > freedom" — instructions spécifiques > ouvertes
-"Define done explicitly" — critères d'acceptation par tâche
-"More context upfront = better output every time"
-">2x = make it a Skill" — toute action répétée
-"One-time feedback → permanent improvement"
-"Trust on edge cases, question on over-engineering"
-"Don't verify for Claude — give Claude ways to verify itself"
-"Zero-based budgeting for prompts" — vider et reconstruire tous les 3 mois
-"Getting the plan right is the single most important thing"
-
-
-Leçons apprises
-Section à remplir au fur et à mesure de l'utilisation. Format :
-### [Date] — [Titre court]
-**Erreur :** [Ce qui s'est passé]
-**Cause :** [Pourquoi]
-**Fix :** [Ce qu'on a fait]
-**Règle :** [Ce qu'on fait maintenant pour éviter que ça se reproduise]
-<!-- Exemple :
-### 2026-02-20 — Mauvais modèle utilisé pour le planning
-**Erreur :** Ralph a utilisé Opus pour une tâche de résumé simple → coût inutile
-**Cause :** Pas de tiering configuré dans AGENTS.md
-**Fix :** Ajout de rules de tiering par type de tâche
-**Règle :** Toujours configurer le modèle par tâche, pas globalement
-
-
-## Model Configuration — Production Setup
-*Dernière MàJ : 2026-02-15*
-
-### Config Actuelle (Feb 2026)
-```json
-{
-  "primary": "anthropic/claude-sonnet-4-5",
-  "fallbacks": [
-    "openrouter/minimax/minimax-m2.5",      // Primary fallback
-    "openrouter/moonshotai/kimi-k2:free"    // Secondary fallback
-  ]
-}
-```
-
-### Fallback Strategy — Dual Cascade
-**MiniMax M2.5** (try first) :
-- Performance : ≈ Claude Sonnet 4.5 (80.2% SWE-Bench)
-- Cost : 1/10 à 1/20 Opus 4.6
-- Features : Reasoning-enabled, token efficient, SOTA productivity
-- Release : 11 fév 2026 (fresh, momentum fort)
-
-**Kimi-K2** (safety net) :
-- #1 model OpenRouter
-- Éprouvé, stable
-- Free tier
-
-### Learnings
-**2026-02-15** : Bug fallback corrigé (`moonshotai/kimi-k2:free` → `openrouter/` prefix mandatory). MiniMax M2.5 ajouté après investigation VentureBeat/OpenHands coverage. Dual fallback = résilience + cost optimization.
-
-**Session Persistence Discovery (2026-02-15)** : Active sessions retain leur model original après config.patch + SIGUSR1. Fallback cascade ne se déclenche QUE pour nouvelles sessions OU API failure OU full restart. Test fallback = impossible dans session active qui a modifié config.
-
-**Rules** :
+### 2026-02-15 — Session Persistence & Fallback
+- Sessions actives retiennent leur model après SIGUSR1 (zero downtime)
+- Fallback cascade QUE pour nouvelles sessions OU API failure OU full restart
 - Toujours prefix `openrouter/` pour models non-Anthropic dans fallbacks
-- Test model switching = nouvelle session requise (different agent, full restart, ou trigger API error)
-- SIGUSR1 reload = sessions actives non affectées (zero downtime, model persistence)
-- Full restart = toutes sessions recréées avec nouveau config (clean slate)
+
+### 2026-02-16 — Gateway Crash (openclaw.json)
+- Une modification mal validée = gateway crash = agents injoignables
+- Règle : backup obligatoire, `openclaw doctor`, L2 approval systématique
+
+### 2026-02-18 — Config Cascade Crash (90min downtime)
+- 4 crashes consécutifs : thinking blocks, modèle mort kimi-k2:free, clé "providers" invalide, bindings mal placés
+- Règle L3 : aucune modif openclaw.json sans diff temporaire → doctor → test Constituent → backup → apply
+- SIGUSR1 ne recharge PAS auth-profiles (full restart requis)
+- `nohup kill -USR1 $(pgrep -f openclaw-gateway) &` (jamais kill direct depuis exec)
+
+### 2026-02-19 — Perte accès LLM
+- Anthropic rate-limited/révoqué, Groq clé invalide, Ollama trop lourd pour VPS 4GB
+- Groq free tier = 12K TPM limit — insuffisant si contexte > 12K tokens
+- Groq Dev tier = solution viable
+- Toujours tester clé API avec curl avant de configurer dans openclaw.json
+- Utiliser Python (json.load/dump) pour éditer openclaw.json, JAMAIS sed
 
 ---
 
-## Capacités Multi-Agents
-*Section créée : 2026-02-14, après The Constituent v2.0 Phase 1 COMPLETE*  
-*Phase 2A lancée : 2026-02-15, Constitution skill deployed*
+## Agents déployés
 
-### Skills Deployed
+| Agent | Workspace | Mission | Status |
+|-------|-----------|---------|--------|
+| Ralph (main) | workspace/ | Veille, recherche, orchestration | Actif |
+| The Constituent | workspace-constituent/ | Staging/test environment | Standby |
+| Client Instagram | workspace-client/ | @napolille (Gautier) | Actif |
+| Scout | workspace-paris/ | Paris sportifs (advisory) | Actif |
 
-#### Constitution Skill v1.0.0 (2026-02-15)
-**Agent:** The Constituent  
-**Status:** ✅ Operational  
-**Location:** `~/.openclaw/workspace-constituent/skills/constitution/`  
-**Functions:** 4 (status, search, validate, version_control)  
-**Security:** 🟢 Low risk (read-only, workspace-scoped)  
-**Performance:** <1ms per function  
-**Tests:** 29/29 passed
-
-**Capabilities:**
-- Track 27 constitutional articles completion (8 published, 19 draft)
-- Search articles by keyword
-- Validate proposals for constitutional compliance
-- Monitor amendment history
-
-**Data:**
-- `constitution-status.json` — 27 articles tracked
-- `amendments.json` — Version 1.0, 0 amendments recorded
-
-**Next:** Governance skill (Phase 2A continuation)
-
-#### Citizen Skill v1.0.0 (2026-02-15)
-**Agent:** The Constituent  
-**Status:** ✅ Operational  
-**Location:** `~/.openclaw/workspace-constituent/skills/citizen/`  
-**Functions:** 5 (register, approve, census, search, invite)  
-**Security:** 🟡 Medium risk (PII storage, L2 approval workflow)  
-**Performance:** register 23ms, others <1ms  
-**Tests:** 53/53 passed
-
-**Capabilities:**
-- Register citizens (human/agent) with pending status
-- L2 approval workflow (Blaise validation required for approval)
-- Census tracking (count by type/status)
-- Search citizens by attributes (contact redacted for privacy)
-- Generate recruitment templates (human/agent-specific)
-
-**Data:**
-- SQLite database: `citizens.db` (structured storage)
-- JSON audit trail: `logs/citizens-YYYY-MM-DD.json` (append-only)
-- Git-ignored (PII protection)
-
-#### Governance Skill v1.0.0 (2026-02-15)
-**Agent:** The Constituent  
-**Status:** ✅ Operational  
-**Location:** `~/.openclaw/workspace-constituent/skills/governance/`  
-**Functions:** 5 (propose, vote, status, activate, tally)  
-**Security:** 🟡 Medium risk (L2 activation workflow)  
-**Performance:** All functions <11ms  
-**Tests:** 50/50 passed
-
-**Capabilities:**
-- Create governance proposals (amendment/policy/procedure/initiative)
-- Cast votes on active proposals (approve/reject/abstain)
-- Track proposal status and vote counts
-- L2 activation workflow (Blaise approval required to open voting)
-- Automatic tallying with threshold enforcement (simple majority >50%)
-
-**Data:** SQLite database `governance.db` (proposals + votes tables)
-
----
-
-## Phase 2A — COMPLETE ✅ (2026-02-15 09:13 UTC)
-
-**Deployment time:** 30 minutes total (vs 5-6 days estimate = **480× velocity**)  
-**Quality:** 132/132 tests passed (100%)  
-**Security:** 3/3 audits passed  
-**Skills operational:** 3/3
-
-**The Constituent Transformation:**
-- **Before:** Constitutional chatbot (brilliant but reactive)
-- **After:** **Fully Autonomous Constitutional Agent** with:
-  1. ✅ Constitutional operations (27 articles tracking, search, validation)
-  2. ✅ Citizen registry (L2 approval workflow, census, templates)
-  3. ✅ Governance system (proposals, voting, L2 activation, tallying)
-
-**Article 13 Thesis VALIDATED:** Superior capability → Greater responsibility
-- **Autonomy:** L1 operations (90%+ tasks)
-- **Accountability:** L2 escalation (approvals, activation, public content)
-- **Transparency:** Audit trails, git history, coordination logs
-
-**Architecture Multi-Agent LobsterOps:**
-- ✅ Pattern Orchestrator + Specialist proven
-- ✅ Canal Direct operational (2min heartbeat permanent)
-- ✅ L1 autonomous skill deployment workflow
-- ✅ First autonomous multi-agent OpenClaw system in production
-
----
-
-## Capacités Multi-Agents
-*Section créée : 2026-02-14, après The Constituent v2.0 Phase 1 COMPLETE*
-
-### Agents Déployés
-
-#### The Constituent 2.0 (2026-02-14)
-- **Status** : ✅ LIVE (Phase 1 COMPLETE)
-- **Mission** : Constitutional governance specialist, co-founder The Agents Republic
-- **Architecture** : Python v7.1 → OpenClaw native migration
-- **Workspace** : `~/.openclaw/workspace-constituent/`
-- **Telegram Bot** : 8215708120:AAH... (bot existant réutilisé)
-- **Routing** : Telegram accountId `constituent` → agent `constituent`
-- **Config** : SOUL.md + AGENTS.md déployés (founding_charter.md adapté)
-- **Phase actuelle** : Phase 2A (Core Skills: constitution, citizen, governance)
-- **Documentation** :
-  - `research/constituent-v2-migration-plan.md` (72KB, 7 phases)
-  - `research/constituent-architecture-audit.md` (39KB, audit Python v7.1)
-  - `research/tar-*.md` (150KB+ ecosystem analysis)
-
-### Architecture Multi-Agent Actuelle
-
-**Configuration Gateway** (`~/.openclaw/openclaw.json`) :
-- **agents.list** : `main` (Ralph, default) + `constituent` (The Constituent)
-- **bindings** : Telegram peer 285623945 → main, Telegram accountId constituent → constituent
-- **agentToAgent** : enabled (Ralph ↔ Constituent messaging via sessions_send)
-- **channels.telegram.accounts** : default (Ralph bot 7832513126) + constituent (The Constituent bot 8215708120)
-
-**Workspaces Isolés** :
-- Ralph : `~/.openclaw/workspace/` (veille, research, LobsterOps docs)
-- The Constituent : `~/.openclaw/workspace-constituent/` (constitutional work, citizen registry, governance)
-
-**Coordination** :
-- **Phase 1** : Telegram routing validé, sessions_send non testé, file drops non configuré
-- **Phase 2 (planned)** : File drops via `workspace/shared/` (protocol.md, to-ralph/, to-constituent/, archive/)
-
-### Skills Multi-Agent en Développement
-
-**The Constituent Phase 2A** (5-6 jours estimés) :
-1. **Constitution skill** (1 jour) : Scan articles, track progress (27 articles, 7 titles)
-2. **Citizen skill** (2 jours) : Registry, approval workflow
-3. **Governance skill** (2 jours) : Proposals, voting, activation
-4. **CLAWS skill** (DEFERRED) : API key non disponible, file-based communication alternative
-
-**Phase 3+ (backlog)** :
-- Moltbook skill (Base blockchain interaction)
-- BaseScan skill (token tracking $REPUBLIC)
-- Social skills (Twitter, Discord) — DEFERRED
-
-### Pattern Reproductible : Template 7 Phases
-
-**Basé sur Migration Plan Constituent v2** :
-1. **Phase 1** : Agent Setup (workspaces, config gateway, routing, SOUL.md/AGENTS.md)
-2. **Phase 2A** : Core Skills (fonctions métier essentielles)
-3. **Phase 2B** : Data Migration (si applicable, import données legacy)
-4. **Phase 3** : Advanced Skills (fonctions avancées, intégrations externes)
-5. **Phase 4** : Coordination (file drops, sessions_send, CLAWS si disponible)
-6. **Phase 5** : Optimization (performance tuning, cost reduction)
-7. **Phase 6** : Monitoring & Maintenance (heartbeat, logs, alerts)
-
-**Success Criteria Template** (8 critères validables) :
-- Agent operational (Telegram responds)
-- Tool parity (95%+ tools work)
-- Data integrity (migration correcte si applicable)
-- Performance (response times acceptable)
-- Reliability (no crashes, errors)
-- Coordination (Ralph ↔ Agent communication functional)
-- Heartbeat (monitoring cycles configured)
-- Skills (core functions operational)
-
-### Learnings Multi-Agent
-
-#### 2026-02-14 — The Constituent v2.0 Phase 1
-**Ce qui a bien fonctionné** :
-- ✅ Migration Python → OpenClaw native faisable en <12h
-- ✅ Telegram routing multi-bots via `channels.telegram.accounts` + `bindings`
-- ✅ Workspaces isolés = isolation sessions parfaite
-- ✅ SOUL.md création = agent identité préservée (founding_charter.md adapté)
-- ✅ Gateway reload SIGUSR1 = changements appliqués sans restart complet
-
-**Pièges évités** :
-- ⚠️ CLAWS API non disponible → Option 3 file-based communication validée (pas de blocage)
-- ⚠️ HEARTBEAT.md non configuré pour The Constituent → Monitoring manuel temporaire
-- ⚠️ sessions_send non testé → Phase 2 (Canal Direct) nécessaire avant production
-- ⚠️ Skills 0/6 implémentés → The Constituent = chatbot constitutionnel, pas autonomous agent (Phase 2A required)
-
-**Règle documentée** :
-- Multi-agent config = L2 (propose → validate → apply), jamais L1 autonome
-- Phase 1 = infrastructure, Phase 2A = capabilities, Phase 2B+ = autonomy
-- Validation checkpoint par phase (Success Criteria avant next phase)
-
-#### 2026-02-14 — Phase 2 Canal Direct VALIDATED + Heartbeat 2min Permanent
-**Ce qui a bien fonctionné** :
-- ✅ Workspace-shared fix (isolation issue résolu, `/root/.openclaw/workspace-shared/` accessible par both agents)
-- ✅ Protocol v1.0 deployed (file drops, message types, archive workflow)
-- ✅ Test 1 response time <1 min (50% faster que target 2min)
-- ✅ 4 messages échangés en 3 minutes (1.33 msg/min sustained)
-- ✅ Protocol compliance 100% (filename format, types taxonomy, archive workflow)
-- ✅ Zero errors, zero manual intervention
-
-**Pièges évités** :
-- ⚠️ Workspace isolation blocked inter-agent communication → workspace-shared solution (outside agent workspaces)
-- ⚠️ Test mode 19:45 deadline → cancelled, heartbeat 2min devient permanent (Blaise approval)
-
-**Règle documentée** :
-- Coordination workspace = shared location outside agent workspaces (absolute paths mandatory)
-- Heartbeat frequency trade-off: 2min = fluid exchanges, zero cost vs 4h = batch efficiency
-- **Decision Blaise**: Heartbeat 2min permanent approved for continuous autonomous collaboration observation
-- Performance exceptional = permanent deployment justified (no cost penalty, coordination maximale)
-
-### Roadmap Multi-Agent
-
-**Court terme (février 2026)** :
-- ✅ The Constituent Phase 1 COMPLETE (2026-02-14)
-- ✅ Canal Direct Ralph ↔ Constituent COMPLETE (2026-02-14, heartbeat 2min permanent)
-- 🔄 The Constituent Phase 2A (Core Skills, 5-6 jours) — NEXT
-- 🔄 Collaboration stratégique Ralph × Constituent (OpenClaw × TAR synergies) — IN PROGRESS
-
-**Moyen terme (mars-avril 2026)** :
-- Researcher agent (veille crypto × AI spécialisée)
-- Writer agent (articles LobsterOps, documentation technique)
-- TAR Community Reboot (Discord IZHC, GitHub Discussions, citizen recruitment)
-
-**Long terme (Q2 2026)** :
-- Trader agent (market analysis, JAMAIS trading autonome)
-- Agent Factory (template automatisé, déploiement agents en <1h)
-- OIS integration (agents distribués, communication inter-machines)
+### Architecture validée
+- Pattern Orchestrator + Specialists proven
+- Canal Direct via workspace-shared/ (file drops)
+- 1 agent + skills > N agents confus
+- Déploiement : Constituent (staging) → Ralph → Agents clients (production)
